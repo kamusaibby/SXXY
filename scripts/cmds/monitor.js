@@ -25,17 +25,23 @@ module.exports = {
     try {
       const startTime = Date.now(); 
 
-      // 🌟 Random anime characters for image search
-      const characters = ["Zoro", "Madara", "Obito", "Luffy", "Naruto", "Itachi", "Sung Jin-Woo"];
+      // 🌟 List of male anime characters
+      const characters = ["Monkey D. Luffy", "Mikey", "Madara Uchiha", "Itachi Uchiha", "Naruto Uzumaki", "Sasuke Uchiha", "Zoro"];
       const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
-      const imageURL = `https://pin-two.vercel.app/pin?search=${encodeURIComponent(randomCharacter)}`;
 
-      const imageResponse = await axios.get(imageURL);
-      const imageList = imageResponse.data.result;
-      const randomImage = imageList[Math.floor(Math.random() * imageList.length)];
+      // 🌟 Fetch image of the character using Jikan API (MyAnimeList)
+      const characterResponse = await axios.get(`https://api.jikan.moe/v4/characters?q=${encodeURIComponent(randomCharacter)}&limit=1`);
+      if (!characterResponse.data || !characterResponse.data.data || characterResponse.data.data.length === 0) {
+        throw new Error("No character data found from the API.");
+      }
 
-      const imageBuffer = await axios.get(randomImage, { responseType: 'arraybuffer' });
-      const imagePath = path.join(__dirname, 'cache', `monitor_image.jpg`);
+      const characterImageURL = characterResponse.data.data[0].images.jpg.image_url;
+      const imageBuffer = await axios.get(characterImageURL, { responseType: 'arraybuffer' });
+
+      const cacheDir = path.join(__dirname, 'cache');
+      await fs.ensureDir(cacheDir); // Ensure the cache directory exists
+
+      const imagePath = path.join(cacheDir, `monitor_image.jpg`);
       await fs.outputFile(imagePath, imageBuffer.data);
 
       // ⏳ Uptime Calculation
@@ -53,19 +59,15 @@ module.exports = {
       // 🏓 Ping Calculation
       const ping = Date.now() - startTime;
 
-      // 🎨 Stylish Message
+      // 🎨 Simple Message Design
       const message = `
-┏━━━━━━━━━━━━━━━━━━━┓
-┃ 🌈 𝗕𝗢𝗧 𝗦𝗧𝗔𝗧𝗨𝗦 ┃
-┗━━━━━━━━━━━━━━━━━━━┛
+<🎀 𝖳𝗐𝗂𝗇𝗄𝗅𝖾 𝗌𝗍𝖺𝗍𝗎𝗌༄ 
 
-${uptimeFormatted}
+𝖴𝗉𝗍𝗂𝗆𝖾: ${uptimeFormatted}
 
-🏖️ 𝗣𝗶𝗻𝗴: ${ping}ms
+𝖯𝗂𝗇𝗀: ${ping}ms
 
-🪐 𝗜𝗺𝗮𝗴𝗲 𝗧𝗵𝗲𝗺𝗲: ${randomCharacter}
-
-👑 𝗢𝘄𝗻𝗲𝗿: 𝗦𝗔𝗜𝗙 🐼🎀
+𝖮𝗐𝗇𝖾𝗋: 𝗦𝗔𝗜𝗙 🍒
 `;
 
       // 📤 Sending Message with Image
@@ -75,10 +77,10 @@ ${uptimeFormatted}
         attachment: imageStream
       }, event.threadID, event.messageID);
 
-      await fs.unlink(imagePath);
+      await fs.unlink(imagePath); // Clean up the image file
     } catch (error) {
-      console.error(error);
-      return api.sendMessage(`❌ An error occurred!`, event.threadID, event.messageID);
+      console.error("Error in monitor command:", error);
+      return api.sendMessage(`❌ An error occurred: ${error.message}`, event.threadID, event.messageID);
     }
   }
 };
