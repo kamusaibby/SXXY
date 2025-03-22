@@ -1,6 +1,6 @@
 module.exports = {
   config: {
-    name: "album",
+    name: "album2",
     version: "1.0",
     author: "SAIF",
     countDown: 10,
