@@ -15,7 +15,11 @@ module.exports = {
     const categories = {
       anime: [
         "https://i.imgur.com/lyRI0nD.mp4",
-        "https://i.imgur.com/7ZByQ5K.mp4"
+        "https://i.imgur.com/7ZByQ5K.mp4",
+        "https://i.imgur.com/jpoKusB.mp4",
+        "https://i.imgur.com/zD0v0CV.mp4",
+        "https://i.imgur.com/SNeKJ1E.mp4",
+        "https://i.imgur.com/VVeISk9.mp4",
       ],
       love: [
         "https://i.imgur.com/vhhuvjw.mp4",
@@ -61,9 +65,11 @@ module.exports = {
         "https://example.com/horny1.mp4",
         "https://example.com/horny2.mp4"
       ],
-      funk: [
-        "https://example.com/sesh1.mp4",
-        "https://example.com/sesh2.mp4"
+      car: [
+        "https://i.imgur.com/0mAedKY.mp4",
+        "https://i.imgur.com/exHwxax.mp4",
+        "https://i.imgur.com/fjFHcnY.mp4",
+        "https://i.imgur.com/KiubkIW.mp4",
       ]
       // Add more categories and links as needed
     };
