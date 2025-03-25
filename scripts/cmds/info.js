@@ -17,13 +17,13 @@ module.exports = {
 	onStart: async function ({ api, event }) {
 		try {
 			const ArYanInfo = {
-				name: '𝑺 𝑨 𝑰 𝑭_🌷✨',
-				gender: 'Male',
-				age: '15+',
-				Class: '9',
-				Relationship: 'Single',
-				religion: 'Islam',
-				facebook: 'https://m.me/ewrsaif570'
+				name: '𝗧𝗢𝗠 💋',
+				gender: '𝗠𝗮𝗹𝗲',
+				age: '17+',
+				Class: '00',
+				Relationship: '𝗠𝗶𝗻𝗴𝗹𝗲',
+				religion: '𝗜𝘀𝗹𝗮𝗺',
+				facebook: '𝗙𝘂𝗰𝗸𝗯𝗼𝗼𝗸 𝗶𝗱 𝗻𝗮𝗶'
 			};
 
 			const ArYan = 'https://i.imgur.com/hA4K3it.jpeg';
