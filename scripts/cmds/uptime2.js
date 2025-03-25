@@ -31,7 +31,7 @@ module.exports = {
                 uptimeString += `➪ ${seconds} second${seconds > 1 ? "s" : ""}`;
 
                 // design 
-                const message = `🎀🐥 𝗧𝘄𝗶𝗻𝗸𝗹𝗲 𝘂𝗽𝘁𝗶𝗺𝗲\n\n${uptimeString}\n\n\n\n`;
+                const message = `🎀🐥 BA'BY くめ\n\n${uptimeString}\n\n\n\n`;
 
                 api.sendMessage(message, event.threadID);
         }
