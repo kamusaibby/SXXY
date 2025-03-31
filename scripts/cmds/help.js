@@ -59,7 +59,7 @@ module.exports = {
 
         const totalCommands = commands.size;
         msg += `\n🌈𝗬𝗼𝘂𝗿𝗲 𝘁𝘄𝗶𝗻𝗸𝗹𝗲 𝘁𝗼𝘁𝗮𝗹 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝘀 : ${totalCommands} \n`;
-        msg += `𝗔𝗱𝗺𝗶𝗻_𝖲 𝖠 𝖨 𝖥 ☘︎`;
+        msg += `𝗔𝗱𝗺𝗶𝗻_T O M ☘︎`;
 
         // Fixed: Set a valid image URL
         const helpListImages = [
