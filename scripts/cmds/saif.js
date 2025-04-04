@@ -1,49 +1,81 @@
 const axios = require("axios");
 const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
   config: {
     name: "Saif",
-    version: "1.1",
+    version: "2.0",
     author: "Saif",
-    countDown: 5,
+    countDown: 3,
     role: 0,
-    shortDescription: "no prefix",
-    longDescription: "no prefix",
-    category: "info",
+    shortDescription: "Instant Tom Identifier",
+    longDescription: "Automatically responds with Tom's details when mentioned",
+    category: "automation",
+    envConfig: {}
   },
 
   onStart: async function () {},
 
   onChat: async function ({ event, message }) {
-    if (event.body) {
-      let text = event.body.toLowerCase();
+    try {
+      if (!event.body) return;
 
-      if (text === "saif" || text === "twinkle") {
-        try {
-          // Video URL
-          const videoUrl = "https://i.imgur.com/KV1u6yV.mp4";
-          const path = __dirname + "/temp_video.mp4";
+      const triggers = ["tom", "twinkle"];
+      const input = event.body.toLowerCase().trim();
 
-          // Download Video
-          let response = await axios({
-            url: videoUrl,
-            method: "GET",
-            responseType: "stream",
-          });
+      if (!triggers.includes(input)) return;
 
-          response.data.pipe(fs.createWriteStream(path));
-          response.data.on("end", async () => {
-            return message.reply({
-              body: `╔════════════╗\n║  Twinkle info ║\n╚════════════╝\n\n🌟 𝐎𝐰𝐧𝐞𝐫: 𝕊𝕒𝕚𝕗\n🤖 𝐁𝐨𝐭 𝐍𝐚𝐦𝐞: 𝒯𝓌𝒾𝓃𝓀𝓁𝑒 ✨\n📂 𝐂𝐚𝐭𝐞𝐠𝐨𝐫𝐲: 𝙽𝚘 𝙿𝚛𝚎𝚏𝚒𝚡\n\n💠 𝐌𝐚𝐝𝐞 𝐰𝐢𝐭𝐡 ❤️`,
-              attachment: fs.createReadStream(path),
-            });
-          });
-        } catch (error) {
-          console.error("Video Download Error:", error);
-          return message.reply("⚠️ Video download korte problem hoise!");
-        }
-      }
+      // Configuration
+      const media = {
+        videoUrl: "https://i.imgur.com/pBGHlIe.mp4",
+        fileName: "tom_identifier.mp4",
+        tempDir: path.join(__dirname, "cache")
+      };
+
+      // Ensure cache directory exists
+      await fs.ensureDir(media.tempDir);
+      const filePath = path.join(media.tempDir, media.fileName);
+
+      // Download media with progress tracking
+      console.log("Fetching Tom's information...");
+      const response = await axios({
+        method: 'GET',
+        url: media.videoUrl,
+        responseType: 'stream',
+        timeout: 15000
+      });
+
+      // Write file stream
+      const writer = fs.createWriteStream(filePath);
+      response.data.pipe(writer);
+
+      await new Promise((resolve, reject) => {
+        writer.on('finish', resolve);
+        writer.on('error', () => reject(new Error('Failed to save media')));
+      });
+
+      // Modern response template
+      const infoResponse = `
+✦ 𝗧𝗢𝗠 𝗜𝗗𝗘𝗡𝗧𝗜𝗙𝗜𝗘𝗗 ✦
+
+❖ 𝗢𝘄𝗻𝗲𝗿: 𝗧𝗢𝗠 💋
+✧ 𝗕𝗼𝘁 𝗡𝗮𝗺𝗲: 𝗕𝗔'𝗕𝗬 くめ
+
+✦ 𝗔𝘂𝘁𝗼-𝗿𝗲𝘀𝗽𝗼𝗻𝗱 𝘀𝘆𝘀𝘁𝗲𝗺 ✦
+`;
+
+      await message.reply({
+        body: infoResponse,
+        attachment: fs.createReadStream(filePath)
+      });
+
+      // Cleanup
+      fs.unlink(filePath).catch(() => {});
+
+    } catch (error) {
+      console.error("Tom Identifier Error:", error);
+      await message.reply("🔧 System temporarily unavailable. Try again soon!");
     }
-  },
+  }
 };
