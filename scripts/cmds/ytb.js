@@ -15,7 +15,7 @@ module.exports = {
     description: {
       en: "Search and download YouTube videos or audio (under 10 minutes)"
     },
-    category: "media",
+    category: "MEDIA",
     guide: {
       en: "{pn} [video|-v] [<video name>]: Search and download video from YouTube\n" +
         "{pn} [audio|-a] [<video name>]: Search and download audio from YouTube\n" +
@@ -154,50 +154,48 @@ async function searchYouTube(query) {
       url: `https://www.youtube.com/watch?v=${video.videoId}`
     }));
 }
-
 async function downloadVideo(url, message) {
-  const response = await axios.get(`https://fastapi-nyx-production.up.railway.app/y?url=${encodeURIComponent(url)}&type=mp4`);
-  const videoUrl = response.data.url;
-  const tempFilePath = path.join(__dirname, 'nyx_video.mp4');
-  const writer = fs.createWriteStream(tempFilePath);
-  const videoResponse = await axios({ url: videoUrl, responseType: 'stream' });
-  videoResponse.data.pipe(writer);
-  
-  await new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
-  
-  await message.reply({
-    body: response.data.title,
-    attachment: fs.createReadStream(tempFilePath)
-  });
-  
-  fs.unlink(tempFilePath, (err) => {
-    if (err) console.error(err);
-  });
+  try {
+    const response = await axios.get(`https://www.noobz-api.rf.gd/api/ytv?d=${encodeURIComponent(url)}&type=mp4`);
+    const videoUrl = response.data.url;
+    const tempFilePath = path.join(__dirname, 'nyx_video.mp4');
+    const videoData = await axios({
+      url: videoUrl,
+      responseType: 'arraybuffer'
+    });
+
+    fs.writeFileSync(tempFilePath, videoData.data);
+    await message.reply({
+      body: "Here is YouTube video",
+      attachment: fs.createReadStream(tempFilePath)
+    });
+    fs.unlinkSync(tempFilePath);
+
+  } catch (error) {
+    await message.reply("❌ Failed to download video.");
+  }
 }
 
 async function downloadYouTubeAudio(videoId, message) {
-  const response = await axios.get(`https://fastapi-nyx-production.up.railway.app/y?url=https://www.youtube.com/watch?v=${videoId}&type=mp3`);
-  const audioUrl = response.data.url;
-  const tempFilePath = path.join(__dirname, 'nyx_audio.mp3');
-  const writer = fs.createWriteStream(tempFilePath);
-  const audioResponse = await axios({ url: audioUrl, responseType: 'stream' });
-  audioResponse.data.pipe(writer);
-  
-  await new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
-  
-  await message.reply({
-    body: "Audio downloaded",
-    attachment: fs.createReadStream(tempFilePath)
-  });
-  fs.unlink(tempFilePath, (err) => {
-    if (err) console.error(err);
-  });
+  try {
+    const response = await axios.get(`https://www.noobz-api.rf.gd/api/ytv?d=https://www.youtube.com/watch?v=${videoId}&type=mp3`);
+    const audioUrl = response.data.url;
+    const tempFilePath = path.join(__dirname, 'nyx_audio.mp3');
+    const audioData = await axios({
+      url: audioUrl,
+      responseType: 'arraybuffer'
+    });
+
+    fs.writeFileSync(tempFilePath, audioData.data);
+    await message.reply({
+      body: "🎵 Audio downloaded",
+      attachment: fs.createReadStream(tempFilePath)
+    });
+    fs.unlinkSync(tempFilePath);
+
+  } catch (error) {
+    await message.reply("❌ Failed to download audio.");
+  }
 }
 
 async function getVideoInfo(videoId) {
