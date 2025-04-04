@@ -1,6 +1,6 @@
 module.exports = {
 config: {
-name: "aYan",
+name: "kamu",
 version: "1.0",
 author: "aYan",
 countDown: 5,
@@ -14,7 +14,7 @@ onStart: async function(){},
 onChat: async function({ event, message, getLang }) {
 if (event.body && event.body.toLowerCase() === "kamu") {
 return message.reply({
-body: " ──────────◊\n‣ 𝐁𝐨𝐭 & 𝐎𝐰𝐧𝐞𝐫 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧  \n\n‣ 𝐍𝐚𝐦𝐞: 𝐊𝐀𝐌𝐔                           ‣ 𝐁𝐨𝐭 𝐍𝐚𝐦𝐞: BA'BY くめ  」",
+body: " ──────────◊\n‣ 𝐁𝐨𝐭 & 𝐎𝐰𝐧𝐞𝐫 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧  \n\n‣ 𝐍𝐚𝐦𝐞: 𝐊𝐀𝐌𝐔                           ‣ 𝐁𝐨𝐭 𝐍𝐚𝐦𝐞: 𝗕𝗔'𝗕𝗬 くめ  」",
 attachment: await global.utils.getStreamFromURL("https://i.imgur.com/iAdtWoH.mp4")
 });
 }
