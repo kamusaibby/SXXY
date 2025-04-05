@@ -1,40 +1,43 @@
+const axios = require("axios");
+const fs = require("fs");
+
+const baseApiUrl = async () => {
+    const base = 'https://mahmud-age.onrender.com';
+    return base;
+};
+
 module.exports = {
-  config: {
-    name: "age",
-    author: "SAIF",
-    countDown: 5,
-    role: 0,
-    category: "birthday🎀",
-    shortDescription: {
-      en: "mention your friend and write something to post✍️",
+    config: {
+        name: "age",
+        version: "1.2",
+        author: "Leon",
+        category: "utility",
+        guide: {
+            en: "Usage: age <YYYY-MM-DD>"
+        }
     },
-  },
 
-  onStart: async function ({ api, event, args }) {
-    const birthday = args[0];
+    onStart: async function ({ args, message }) {
+        if (args.length === 0) {
+            return message.reply("❗ Please provide your date of birth in the format `YYYY-MM-DD`.");
+        }
 
-    if (!birthday) {
-      return api.sendMessage("🎂 Please provide your birthday in YYYY-MM-DD format.", event.threadID);
+        const inputDate = args[0];
+
+        try {
+            const base = await baseApiUrl();
+            const response = await axios.get(`${base}/age/font3/${inputDate}`);
+
+            const data = response.data;
+
+            if (data.error) {
+                return message.reply(data.error);
+            }
+
+            return message.reply(data.message);
+
+        } catch (error) {
+            return message.reply("❌ Error connecting to the age calculator API.");
+        }
     }
-
-    const currentDate = new Date();
-    const birthDate = new Date(birthday);
-    const age = currentDate.getFullYear() - birthDate.getFullYear();
-
-    birthDate.setFullYear(currentDate.getFullYear());
-    const isBeforeBirthday = currentDate < birthDate;
-
-    const finalAge = isBeforeBirthday ? age - 1 : age;
-
-    const message = `
- Your Age Is ${finalAge} Am I Right? <😽
-
-📅 Birthday: ${birthDate.toDateString()}
-📅 Today: ${currentDate.toDateString()}
-
-✨ Have a wonderful day! 
-    `;
-
-    api.sendMessage(message, event.threadID);
-  },
 };
