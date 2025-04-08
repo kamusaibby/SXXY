@@ -1,40 +1,60 @@
 const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
- config: {
- name: "art",
- role: 0,
- author: "OtinXSandip",
- countDown: 5,
- longDescription: "Art images",
- category: "ai",
- guide: {
- en: "${pn} reply to an image with a prompt and choose model 1 - 52"
- }
- },
- onStart: async function ({ message, api, args, event }) {
- const text = args.join(' ');
+    config: {
+        name: "art",
+        aliases: ["aiart", "genart"],
+        version: "1.0",
+        author: "Mostakim",
+        countDown: 15,
+        role: 0,
+        shortDescription: "AI Generated Art",
+        longDescription: "Get AI-generated images based on your prompt",
+        category: "fun",
+        guide: {
+            en: "{pn} prompt - limit (e.g. art a dog - 5)",
+        },
+    },
 
- if (!event.messageReply || !event.messageReply.attachments || !event.messageReply.attachments[0]) {
- return message.reply("Image URL is missing.");
- }
+    onStart: async function ({ api, event, args }) {
+        const queryAndLength = args.join(" ").split("-");
+        const prompt = queryAndLength[0]?.trim();
+        const length = parseInt(queryAndLength[1]?.trim()) || 5;
 
- const imgurl = encodeURIComponent(event.messageReply.attachments[0].url);
+        if (!prompt) {
+            return api.sendMessage("❌ | Please provide a prompt like: art a cat - 4", event.threadID, event.messageID);
+        }
 
- const [prompt, model] = text.split('|').map((text) => text.trim());
- const puti = model || "37";
+        try {
+            const waitMsg = await api.sendMessage("⏳ | Generating art, please wait...", event.threadID);
+            const res = await axios.get(`https://www.x-noobs-apis.42web.io/art?name=${encodeURIComponent(prompt)}`);
+            const imgLinks = res.data;
 
- api.setMessageReaction("⏰", event.messageID, () => {}, true);
- const lado = `https://sandipapi.onrender.com/art?imgurl=${imgurl}&prompt=${encodeURIComponent(prompt)}&model=${puti}`;
+            if (!imgLinks || imgLinks.length === 0) {
+                return api.sendMessage("❌ | No images found for that prompt.", event.threadID, event.messageID);
+            }
 
- message.reply("✅| Generating please wait.", async (err, info) => {
- const attachment = await global.utils.getStreamFromURL(lado);
- message.reply({
- attachment: attachment
- });
- let ui = info.messageID; 
- message.unsend(ui);
- api.setMessageReaction("✅", event.messageID, () => {}, true);
- });
- }
+            const files = [];
+            const selectedImages = imgLinks.slice(0, length);
+
+            for (let i = 0; i < selectedImages.length; i++) {
+                const imgBuffer = await axios.get(selectedImages[i], { responseType: "arraybuffer" });
+                const filePath = path.join(__dirname, "cache", `art_${i + 1}.jpg`);
+                await fs.outputFile(filePath, imgBuffer.data);
+                files.push(fs.createReadStream(filePath));
+            }
+
+            await api.unsendMessage(waitMsg.messageID);
+            return api.sendMessage({
+                body: `✅ | Here's your generated art for: "${prompt}"\n🖼️ | Total Images: ${selectedImages.length}`,
+                attachment: files,
+            }, event.threadID, event.messageID);
+
+        } catch (err) {
+            console.error(err);
+            return api.sendMessage(`❌ | Error: ${err.message}`, event.threadID, event.messageID);
+        }
+    },
 };
