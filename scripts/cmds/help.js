@@ -59,7 +59,7 @@ module.exports = {
         const totalCommands = commands.size;
         msg += `\n🌈𝗕𝗮𝗯𝘆 𝘁𝗼𝘁𝗮𝗹 𝗰𝗺𝗱𝘀 : ${totalCommands} \n`;
         msg += `
-   ☘︎ 🅐🅓🅜🅘🅝 × 𝐓𝐎𝐌 ☘︎`;
+  ☘︎ 🅐🅓🅜🅘🅝 × 卡姆鲁尔 ☘︎`;
 
         const helpListImages = [
           "https://i.imgur.com/w7tuinm.gif",
