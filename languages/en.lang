@@ -12,7 +12,7 @@ login.loginCookieString=Login with cookie string
 login.loginCookieNetscape=Login with cookie netscape
 login.loginCookieArray=Login with cookie array
 login.loginPassword=Login with email & password...
-login.accountError=Please enter the full permission token in the form of %1 or cookie in the form of string %2 or cookie in the form of array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n or\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\ninto the file %7
+login.accountError=Please enter the full permission token in the form of %1 or cookie in the form of string %2 or cookie in the form of array:\n[\n  { name: %3, value: %4 },\n  { name: %5, value: %6 }\n]\n or\n[\n  { key: %3, value: %4 },\n  { key: %5, value: %6 }\n]\ninto the file %7
 login.cannotFindAccount=Cannot find facebook account, choose one of the following options (enter the number to choose or press down and up to choose and enter to confirm):
 login.chooseAccount=Login with email and password
 login.chooseToken=Login with token full permission
@@ -86,23 +86,23 @@ socketIO.error= 𝙰𝚗 𝙴𝚁𝚁𝙾𝚁 𝙾𝙲𝙲𝚄𝚁𝚁𝙴𝙳 �
 
 # bot/handler/handlerCheckData.js
 handlerCheckData.cantCreateThread=𝙶𝚁𝙾𝚄𝙿𝚂 𝚆𝙸𝚃𝙷 𝙸𝙳 '%1' 𝙲𝙰𝙽𝙽𝙾𝚃 𝙱𝙴 𝚆𝚁𝙸𝚃𝚃𝙴𝙽 𝚃𝙾 𝚃𝙷𝙴 BÄŸĴÏĐ 𝙳𝙰𝚃𝙰𝙱𝙰𝚂𝙴 !
-handlerCheckData.cantCreateUser=𝚄𝚂𝙴𝚁 𝚆𝙸𝚃𝙷 𝙸𝙳 '%1'  𝙲𝙰𝙽𝙽𝙾𝚃 𝙱𝙴 𝚆𝚁𝙸𝚃𝚃𝙴𝙽 𝚃𝙾 𝚃𝙷𝙴 BÄŸĴÏĐ 𝙳𝙰𝚃𝙰𝙱𝙰𝚂𝙴!
+handlerCheckData.cantCreateUser=𝚄𝚂𝙴𝚁 𝚆𝙸𝚃𝙷 𝙸𝙳 '%1'  𝙲𝙰𝙽𝙽𝙾𝚃 𝙱𝙴 𝚆𝚁𝙸𝚃𝚃𝙴𝙽 𝚃𝙾 𝚃𝙷𝙴 BÄŸĴÏĐ 𝙳𝙰𝚃𝙰𝙱𝙰𝚂𝙴!
 
 # bot/handler/handlerEvents.js
-handlerEvents.userBanned= 𝚈𝙾𝚄 𝙷𝙰𝚅𝙴 𝙱𝙰𝙽𝙽𝙴𝙳 𝙵𝚁𝙾𝙼 ❁Ă̈Y̆̈Ă̈N̆̈~𝐁𝐎𝐓𖣘 𝚂𝙴𝚁𝚅𝙴𝚁 𝙿𝙻𝙴𝙰𝚂𝙴 𝙲𝙸𝙽𝚃𝙰𝙲𝚃 ❁Ă̈Y̆̈Ă̈N̆̈𖣘 𝙰𝙳𝙼𝙸𝙽 𝙸 𝙼𝙴𝙰𝙽 ❁Ă̈Y̆̈Ă̈N̆̈𖣘 \n☞︎︎︎ 𝚁𝙴𝙰𝚂𝙾𝙽: %1\n☞︎︎︎  𝚃𝙸𝙼𝙴: %2\n☞︎︎︎ 𝚄𝚂𝙴𝚁 𝙸𝙳: %3
-handlerEvents.threadBanned= 𝚃𝙷𝙸𝚂 𝙶𝚁𝙾𝚄𝙿 𝙱𝙰𝙽𝙽𝙴𝙳 𝙵𝚁𝙾𝙼 ❁Ă̈Y̆̈Ă̈N̆̈𖣘 \n☞︎︎︎ 𝚁𝙴𝙰𝚂𝙾𝙽: %1\n☞︎︎︎ 𝚃𝙸𝙼𝚂: %2\n☞︎︎︎ 𝚃𝙷𝚁𝙴𝙰𝙳 𝙸𝙳: %3
-handlerEvents.onlyAdminBox= 𝚃𝙷𝙸𝚂 𝙶𝚁𝙾𝚄𝙿 𝙸𝚂 𝙲𝚄𝚁𝚁𝙴𝙽𝚃𝙻𝚈 𝙾𝙽 𝙶𝚁𝙾𝚄𝙿 𝙰𝙳𝙼𝙸𝙽 𝙼𝙾𝙾𝙳 𝙽𝙾𝚆 ❁Ă̈Y̆̈Ă̈N̆̈~𝐁𝐎𝐓𖣘 𝙰𝚅𝙰𝙸𝙻𝙰𝙱𝙻𝙴 𝙾𝙽𝙻𝚈 𝙵𝙾𝚁 𝙶𝚁𝙾𝚄𝙿 𝙰𝙳𝙼𝙸𝙽
-handlerEvents.onlyAdminBot=⚠️ | 𝐂𝐔𝐑𝐑𝐄𝐍𝐓𝐋𝐘 𝐎𝐍𝐋𝐘 𝐀𝐃𝐌𝐈𝐍 𝐂𝐀𝐍 𝐔𝐒𝐄 𝐓𝐇𝐄 𝐁𝐎𝐓
-handlerEvents.commandNotFound=𝐂𝐦𝐝 "%1" 𝐃𝐨𝐬𝐞 𝐍𝐨𝐭 𝐄𝐗𝐈𝐒𝐓, 𝐓𝐘𝐏𝐄 %2𝐇𝐄𝐋𝐏 𝐓𝐎 𝐕𝐈𝐄𝐖, 𝐀𝐋𝐋 𝐀𝐕𝐀𝐈𝐋𝐀𝐁𝐋𝐄 𝐂𝐌𝐃
-handlerEvents.commandNotFound2= ⚠️ ||⇨𝐓𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 𝐲𝐨𝐮 𝐚𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐝𝐨𝐞𝐬 𝐧𝐨𝐭 𝐞𝐱𝐢𝐬𝐭
+handlerEvents.userBanned= 𝚈𝙾𝚄 𝙷𝙰𝚅𝙴 𝙱𝙰𝙽𝙽𝙴𝙳 𝙵𝚁𝙾𝙼 ❁卡姆鲁尔~𝐁𝐎𝐓𖣘 𝚂𝙴𝚁𝚅𝙴𝚁 𝙿𝙻𝙴𝙰𝚂𝙴 𝙲𝙸𝙽𝚃𝙰𝙲𝚃 ❁卡姆鲁尔𖣘 𝙰𝙳𝙼𝙸𝙽 𝙸 𝙼𝙴𝙰𝙽 ❁卡姆鲁尔𖣘 \n☞︎︎︎ 𝚁𝙴𝙰𝚂𝙾𝙽: %1\n☞︎︎︎  𝚃𝙸𝙼𝙴: %2\n☞︎︎︎ 𝚄𝚂𝙴𝚁 𝙸𝙳: %3
+handlerEvents.threadBanned= 𝚃𝙷𝙸𝚂 𝙶𝚁𝙾𝚄𝙿 𝙱𝙰𝙽𝙽𝙴𝙳 𝙵𝚁𝙾𝙼 ❁卡姆鲁尔𖣘 \n☞︎︎︎ 𝚁𝙴𝙰𝚂𝙾𝙽: %1\n☞︎︎︎ 𝚃𝙸𝙼𝚂: %2\n☞︎︎︎ 𝚃𝙷𝚁𝙴𝙰𝙳 𝙸𝙳: %3
+handlerEvents.onlyAdminBox= 𝐓𝐡𝐢𝐬 𝐠𝐫𝐨𝐮𝐩 𝐢𝐬 𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲 𝐨𝐧 𝐠𝐫𝐨𝐮𝐩 𝐀𝐝𝐦𝐢𝐧 𝐦𝐨𝐨𝐝 𝐧𝐨𝐰 ❁卡姆鲁尔~𝐁𝐎𝐓𖣘 𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐨𝐧𝐥𝐲 𝐟𝐨𝐫 𝐠𝐫𝐨𝐮𝐩 𝐀𝐝𝐦𝐢𝐧
+handlerEvents.onlyAdminBot=⚠️ | 𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲 𝐨𝐧𝐥𝐲 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐓𝐡𝐞 𝐛𝐨𝐭
+handlerEvents.commandNotFound=𝐂𝐦𝐝 "%1" ⚠️ ||⇨𝐃𝐨𝐬𝐞 𝐧𝐨𝐭 𝐞𝐱𝐢𝐬𝐭, 𝐭𝐲𝐩𝐞 %2! 𝐡𝐞𝐥𝐩 𝐭𝐨 𝐯𝐢𝐞𝐰 𝐚𝐥𝐥, 𝐚𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐜𝐦𝐝
+handlerEvents.commandNotFound2= ⚠️ ||⇨𝐓𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 𝐲𝐨𝐮 𝐚𝐫𝐞 𝐮𝐬𝐢𝐧𝐠 𝐝𝐨𝐞𝐬 𝐧𝐨𝐭 𝐞𝐱𝐢𝐬𝐭, 𝐭𝐲𝐩𝐞 !𝐡𝐞𝐥𝐩 𝐭𝐨 𝐬𝐞𝐞 𝐚𝐥𝐥 𝐚𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝𝐬
 handlerEvents.commandSyntaxError=⚠️ ||⇨ 𝐓𝐡𝐞 𝐜𝐦𝐝 𝐚𝐫𝐞 𝐲𝐨𝐮 𝐮𝐬𝐢𝐧𝐠 𝐢𝐬 𝐰𝐫𝐨𝐧𝐠 𝐬𝐲𝐧𝐭𝐚𝐱. 𝐏𝐥𝐞𝐚𝐬𝐞 𝐭𝐲𝐩𝐞 %1Help%2 𝐓𝐨 𝐒𝐞𝐞 𝐭𝐡𝐞 𝐃𝐞𝐭𝐚𝐥𝐥𝐬 𝐨𝐟, 𝐀𝐥𝐥 𝐜𝐦𝐝𝐬 𝐚𝐧𝐝 𝐡𝐨𝐰 𝐭𝐨 𝐮𝐬𝐞 𝐜𝐦𝐝
-handlerEvents.onlyAdmin=⚠️ |𝐎𝐍𝐋𝐘 𝐆𝐑𝐎𝐔𝐏 𝐀𝐃𝐌𝐈𝐍 𝐂𝐀𝐍 𝐔𝐒𝐄 𝐓𝐇𝐄 𝐂𝐌𝐃 "%1"
-handlerEvents.onlyAdminToUseOnReply=⚠️ |⇨ 𝐎𝐧𝐥𝐲 𝐆𝐑𝐎𝐔𝐏 𝐀𝐃𝐌𝐈𝐍 𝐂𝐀𝐍 𝐔𝐒𝐄 𝐓𝐇𝐄 𝐂𝐑𝐑𝐏𝐋𝐘 𝐅𝐔𝐍𝐂𝐓𝐈𝐎𝐍 𝐎𝐅 𝐓𝐇𝐄 𝐂𝐌𝐃 "%1"
-handlerEvents.onlyAdminToUseOnReaction=⚠️ |⇨ 𝐎𝐧𝐥𝐲 𝐆𝐫𝐨𝐮𝐩 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐭𝐡𝐞 𝐑𝐑𝐀𝐂𝐓𝐈𝐎𝐌 𝐟𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐨𝐟 𝐓𝐡𝐞 𝐂𝐦𝐝  "%1"
+handlerEvents.onlyAdmin=⚠️ |𝐎𝐧𝐥𝐲 𝐠𝐫𝐨𝐮𝐩 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐓𝐡𝐞 𝐂𝐦𝐝 "%1"
+handlerEvents.onlyAdminToUseOnReply=⚠️ |⇨ 𝐎𝐧𝐥𝐲 𝐠𝐫𝐨𝐮𝐩 𝐚𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐭𝐡𝐞 𝐜𝐫𝐫𝐩𝐥𝐲 𝐟𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐨𝐟𝐟 𝐓𝐡𝐞 𝐂𝐦𝐝 "%1"
+handlerEvents.onlyAdminToUseOnReaction=⚠️ |⇨ 𝐎𝐧𝐥𝐲 𝐆𝐫𝐨𝐮𝐩 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐓𝐡𝐞 𝐑𝐫𝐚𝐜𝐭𝐢𝐨𝐦 𝐟𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐨𝐟 𝐓𝐡𝐞 𝐂𝐦𝐝  "%1"
 handlerEvents.onlyAdminBot2=⚠️ |⇨𝐎𝐧𝐥𝐲 𝐛𝐨𝐭'𝐬 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐭𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 "%1"
 handlerEvents.onlyAdminBot2ToUseOnReply=⚠️ |⇨𝐎𝐧𝐥𝐲 𝐛𝐨𝐭 𝐚𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐓𝐡𝐞 𝐫𝐞𝐩𝐥𝐲 𝐅𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐨𝐟 𝐭𝐡𝐞 𝐂𝐦𝐝 "%1"
-handlerEvents.onlyAdminBot2ToUseOnReaction=⚠️ ||⇨𝐎𝐧𝐥𝐲 𝐛𝐨𝐭'𝐬 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐭𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝  "%1"
-handlerEvents.waitingForCommand=⏱ 𝚈𝙾𝚄 𝙰𝚁𝙴 𝙸𝙽 𝚃𝙷𝙴 𝚆𝙰𝙸𝚃𝙸𝙽𝙶 𝚃𝙸𝙼𝙴 𝚃𝙾 𝚄𝚂𝙴 𝚃𝙷𝙸𝚂 𝙲𝙼𝙳 𝙿𝙻𝙴𝙰𝚂𝙴 𝙲𝙾𝙼𝙴 𝙱𝙰𝙲𝙺 𝙰𝙵𝚃𝙴𝚁 %1\nkhankir pola spam korbi ar 😡
+handlerEvents.onlyAdminBot2ToUseOnReaction=⚠️ ||⇨𝐎𝐧𝐥𝐲 𝐛𝐨𝐭'𝐬 𝐀𝐝𝐦𝐢𝐧 𝐜𝐚𝐧 𝐮𝐬𝐞 𝐭𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝  "%1"
+handlerEvents.waitingForCommand=⏱ 𝐘𝐨𝐮 𝐚𝐫𝐞 𝐢𝐧 𝐭𝐡𝐞 𝐰𝐚𝐢𝐭𝐢𝐧𝐠 𝐭𝐢𝐦𝐞 𝐭𝐨 𝐮𝐬𝐞 𝐭𝐡𝐢𝐬 𝐜𝐦𝐝 𝐩𝐥𝐞𝐚𝐬𝐞 𝐜𝐨𝐦𝐞 𝐛𝐚𝐜𝐤 𝐚𝐟𝐭𝐞𝐫 %1\n𝐃𝐨𝐧𝐭 𝐬𝐩𝐚𝐦 𝐨𝐤𝐚𝐲  !!
 handlerEvents.errorOccurred=⚠️ [ %1 ]\n𝙰𝚗 𝙴𝚁𝚁𝙾𝚁 𝙾𝙲𝙲𝚄𝚁𝚁𝙴𝙳 𝙰𝚃 𝙲𝙼𝙳 "%2"\n\n%3
 handlerEvents.errorOccurred2=⚠️ [ %1 ]\n𝙰𝚗 𝙴𝚁𝚁𝙾𝚁 𝙾𝙲𝙲𝚄𝚁𝚁𝙴 𝙰𝚃 𝙲𝙼𝙳 𝙾𝙽𝙲𝙷𝙰𝚃 "%2"\n\n%3
 handlerEvents.errorOccurred3=⚠️ [ %1 ]\n𝙰𝚗 𝙴𝚁𝚁𝙾𝚁 𝙾𝙲𝙲𝚄𝚁𝚁𝙴 𝚆𝙷𝙴𝙽 𝙴𝚇𝙴𝙲𝚄𝚃𝙸𝙽𝙶 𝙾𝙽𝚁𝙴𝙿𝙻𝚈 𝙰𝚃 𝙲𝙼𝙳"%2"\n\n%3
