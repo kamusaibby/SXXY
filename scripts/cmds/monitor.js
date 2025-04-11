@@ -61,13 +61,13 @@ module.exports = {
 
       // 🎨 Simple Message Design
       const message = `
-<🎀 𝖳𝗐𝗂𝗇𝗄𝗅𝖾 𝗌𝗍𝖺𝗍𝗎𝗌༄ 
+<🎀 𝐁𝐚𝐛𝐲 𝐒𝐭𝐚𝐭𝐮𝐬༄ 
 
-𝖴𝗉𝗍𝗂𝗆𝖾: ${uptimeFormatted}
+𝐔𝐩𝐭𝐢𝐦𝐞: ${uptimeFormatted}
 
-𝖯𝗂𝗇𝗀: ${ping}ms
+𝐏𝐢𝐧𝐠: ${ping}ms
 
-𝖮𝗐𝗇𝖾𝗋: 𝗦𝗔𝗜𝗙 🍒
+𝐎𝐰𝐧𝐞𝐫: 卡姆鲁尔
 `;
 
       // 📤 Sending Message with Image
