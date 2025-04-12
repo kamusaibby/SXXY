@@ -1,63 +1,104 @@
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
+const fs = require("fs-extra");
+const request = require("request");
+const os = require("os");
 
 module.exports = {
-	config: {
-		name: "info",
-		aliases: ["info"],
-		author: "ArYan 🤡",
-		role: 0,
-		shortDescription: "info and my owner the cmd",
-		longDescription: "",
-		category: "info",
-		guide: "{pn}"
-	},
+  config: {
+    name: "info",
+    version: "1.3",
+    author: "✨ Eren Yeh ✨",
+    shortDescription: "Display bot and user information along with uptime and Imgur images/videos.",
+    longDescription: "Show detailed info about the bot and the user, with uptime and Imgur image/video features.",
+    category: "INFO",
+    guide: {
+      en: "[user]",
+    },
+  },
 
-	onStart: async function ({ api, event }) {
-		try {
-			const ArYanInfo = {
-				name: '𝗧𝗢𝗠 💋',
-				gender: '𝗠𝗮𝗹𝗲',
-				age: '17+',
-				Class: '00',
-				Relationship: '𝗠𝗶𝗻𝗴𝗹𝗲',
-				religion: '𝗜𝘀𝗹𝗮𝗺',
-				facebook: '𝗙𝘂𝗰𝗸𝗯𝗼𝗼𝗸 𝗶𝗱 𝗻𝗮𝗶'
-			};
+  onStart: async function ({ api, event, args }) {
+    // Replace with your info
+    const userInfo = {
+      name: "卡姆鲁尔 (𝗧𝗼𝗺)",  // Replace with your name
+      age: "17+",           // Replace with your age
+      location: "Rangpur",    // Replace with your location
+      bio: "Bot & JavaScript Lover | Always Learning!", // Replace with your bio
+      botName: "BA'BY くめ", // Replace with bot's name
+      botVersion: "1.0",    // Replace with bot's version
+    };
 
-			const ArYan = 'https://i.imgur.com/hA4K3it.jpeg';
-			const tmpFolderPath = path.join(__dirname, 'tmp');
+    // Calculate bot uptime
+    const botUptime = process.uptime(); // in seconds
+    const botHours = Math.floor(botUptime / 3600);
+    const botMinutes = Math.floor((botUptime % 3600) / 60);
+    const botSeconds = Math.floor(botUptime % 60);
+    const formattedBotUptime = `${botHours} hours, ${botMinutes} minutes, ${botSeconds} seconds`;
 
-			if (!fs.existsSync(tmpFolderPath)) {
-				fs.mkdirSync(tmpFolderPath);
-			}
+    // Calculate system uptime in days, hours, minutes, and seconds
+    const systemUptime = os.uptime(); // in seconds
+    const sysDays = Math.floor(systemUptime / (3600 * 24)); // Convert seconds to days
+    const sysHours = Math.floor((systemUptime % (3600 * 24)) / 3600); // Remaining hours
+    const sysMinutes = Math.floor((systemUptime % 3600) / 60); // Remaining minutes
+    const sysSeconds = Math.floor(systemUptime % 60); // Remaining seconds
+    const formattedSystemUptime = `${sysDays} days, ${sysHours} hours, ${sysMinutes} minutes, ${sysSeconds} seconds`;
 
-			const imgResponse = await axios.get(ArYan, { responseType: 'arraybuffer' });
-			const imgPath = path.join(tmpFolderPath, 'owner_img.jpeg');
+    // Example Imgur video links
+    const imgurLinks = [
+      "https://i.imgur.com/lzLYl1w.mp4",  // Replace with actual Imgur video links
+      "https://i.imgur.com/lzLYl1w.mp4",
+    ];
 
-			fs.writeFileSync(imgPath, Buffer.from(imgResponse.data, 'binary'));
+    // Download videos and send them as attachments
+    const downloadVideo = (url, filePath) => {
+      return new Promise((resolve, reject) => {
+        request(url)
+          .pipe(fs.createWriteStream(filePath))
+          .on("close", resolve)
+          .on("error", reject);
+      });
+    };
 
-			const response = `╭─────❁\n│  𝗢𝗪𝗡𝗘𝗥 𝗜𝗡𝗙𝗢  \n│
-│𝑵𝒂𝒎𝒆 : ${ArYanInfo.name}
-│𝑮𝒆𝒏𝒅𝒆𝒓 : ${ArYanInfo.gender}
-│𝑹𝒆𝒍𝒂𝒕𝒊𝒐𝒏𝒔𝒉𝒊𝒑 : ${ArYanInfo.Relationship}
-│𝑨𝒈𝒆 : ${ArYanInfo.age}
-│𝑹𝒆𝒍𝒊𝒈𝒊𝒐𝒏 : ${ArYanInfo.religion}
-│𝑪𝒍𝒂𝒔𝒔 : ${ArYanInfo.Class}
-│𝑭𝒂𝒄𝒆𝒃𝒐𝒐𝒌 : ${ArYanInfo.facebook}\n╰────────────❁`;
+    // Construct the body message with more space
+    const bodyMsg = `
+Information: 🥷
 
-			await api.sendMessage({
-				body: response,
-				attachment: fs.createReadStream(imgPath)
-			}, event.threadID, event.messageID);
+- Name: ${userInfo.name}
+- Age: ${userInfo.age}
+- Location: ${userInfo.location}
+- Bio: ${userInfo.bio}
 
-			fs.unlinkSync(imgPath);
+Bot Details:
 
-			api.setMessageReaction('🐔', event.messageID, (err) => {}, true);
-		} catch (error) {
-			console.error('Error in ArYaninfo command:', error);
-			return api.sendMessage('An error occurred while processing the command.', event.threadID);
-		}
-	}
+- Bot Name: ${userInfo.botName}
+- Bot Version: ${userInfo.botVersion}
+- Bot Uptime: ${formattedBotUptime}
+
+System Uptime:
+
+- System Uptime: ${formattedSystemUptime}
+
+─────────────────────
+`;
+
+    // Prepare video attachments
+    const videoPaths = [];
+    for (let i = 0; i < imgurLinks.length; i++) {
+      const videoPath = __dirname + `/cache/video${i}.mp4`;
+      await downloadVideo(imgurLinks[i], videoPath);
+      videoPaths.push(videoPath);
+    }
+
+    // Send message with info and video attachments
+    api.sendMessage(
+      { 
+        body: bodyMsg, 
+        attachment: videoPaths.map(path => fs.createReadStream(path))
+      },
+      event.threadID,
+      () => {
+        // Clean up downloaded video files
+        videoPaths.forEach(path => fs.unlinkSync(path));
+      },
+      event.messageID
+    );
+  },
 };
