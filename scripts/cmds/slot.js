@@ -1,79 +1,61 @@
 module.exports = {
-  config: {
-    name: "slot",
-    version: "1.0",
-    author: "OtinXSandip",
-    countDown: 15,
-    shortDescription: {
-      en: "Slot game",
-    },
-    longDescription: {
-      en: "Slot game.",
-    },
-    category: "game",
-  },
-  langs: {
-    en: {
-      invalid_amount: "Enter a valid and positive amount to have a chance to win double!",
-      not_enough_money: "Check your balance if you have that amount.",
-      spin_message: "Spinning...",
-      win_message: "✨ You won $%1, buddy! ",
-      lose_message: "😿 You lost $%1, buddy.",
-      jackpot_message: "😻🎀 JACKPOT! You won $%1 with three %2 symbols, buddy! 🏆",
-    },
-  },
-  onStart: async function ({ args, message, event, envCommands, usersData, commandName, getLang }) {
-    const { senderID } = event;
-    const userData = await usersData.get(senderID);
-    const amount = parseInt(args[0]);
+  config: {
+    name: "slot",
+    version: "3.1",
+    author: "OtinXSandip [Edit by kamu]",
+    countDown: 10,
+    shortDescription: { en: "🎰 Spin & Win!" },
+    longDescription: { en: "Quick slot game with instant rewards." },
+    category: "game",
+  },
 
-    if (isNaN(amount) || amount <= 0) {
-      return message.reply(getLang("invalid_amount"));
-    }
+  langs: {
+    en: {
+      invalid_amount: "❌ Min bet: $100",
+      not_enough_money: "💸 𝐒𝐫𝐲 𝐬𝐢𝐫 𝐚𝐩𝐧𝐚𝐫 𝐜𝐚𝐬𝐡 𝐧𝐞𝐢",
+      win: "🎉 𝐖𝐨𝐧 $%1!",
+      lose: "😢 𝐋𝐨𝐬𝐭 $%1.",
+      jackpot: "💰 JACKPOT! $%1!"
+    }
+  },
 
-    if (amount > userData.money) {
-      return message.reply(getLang("not_enough_money"));
-    }
+  onStart: async function ({ args, message, event, usersData, getLang, api }) {
+    const { senderID, threadID } = event;
+    const user = await usersData.get(senderID);
+    const bet = parseInt(args[0]);
 
-    const slots = ["💚", "💛", "💙", "💜", "💖", "💜", "💚", "💛", "💙"];
-    const slot1 = slots[Math.floor(Math.random() * slots.length)];
-    const slot2 = slots[Math.floor(Math.random() * slots.length)];
-    const slot3 = slots[Math.floor(Math.random() * slots.length)];
+    if (isNaN(bet) || bet < 100) return message.reply(getLang("invalid_amount"));
+    if (bet > user.money) return message.reply(getLang("not_enough_money"));
 
-    const winnings = calculateWinnings(slot1, slot2, slot3, amount);
+    const slots = ["🍒", "🍋", "💰", "💎", "7️⃣", "🍀"];
+    const spin = () => slots[Math.floor(Math.random() * slots.length)];
 
-    await usersData.set(senderID, {
-      money: userData.money + winnings,
-      data: userData.data,
-    });
+    const animMsg = await message.reply("🌀 𝐒𝐩𝐢𝐧𝐧𝐢𝐧𝐠...");
 
-    const messageText = getSpinResultMessage(slot1, slot2, slot3, winnings, getLang);
+    await new Promise(res => setTimeout(res, 1000));
 
-    return message.reply(messageText);
-  },
+    const [a, b, c] = [spin(), spin(), spin()];
+    const result = `[ ${a} | ${b} | ${c} ]`;
+
+    let winAmount = 0;
+    if (a === b && b === c) {
+      winAmount = bet * (a === "7️⃣" ? 20 : 10);
+    } else if (a === b || a === c || b === c) {
+      winAmount = bet * 2;
+    }
+
+    const finalBalance = user.money + (winAmount - bet);
+    await usersData.set(senderID, { money: finalBalance });
+
+    const msg = winAmount > bet
+      ? getLang(winAmount >= bet * 10 ? "jackpot" : "win", winAmount)
+      : getLang("lose", bet);
+
+    await message.reply(`${msg}\n${result}`);
+
+    // Unsend animation message after 500ms
+    setTimeout(() => {
+      api.unsendMessage(animMsg.messageID);
+    }, 500);
+  }
 };
-
-function calculateWinnings(slot1, slot2, slot3, betAmount) {
-  if (slot1 === slot2 && slot2 === slot3) {
-    return betAmount * 5;
-  } else if (slot1 === slot2 || slot1 === slot3 || slot2 === slot3) {
-    return betAmount * 2;
-  } else {
-    return -betAmount;
-  }
-}
-
-function getSpinResultMessage(slot1, slot2, slot3, winnings, getLang) {
-  const resultText = `〚 ${slot1} | ${slot2} | ${slot3} 〛`;
-
-  const asciiArt = `
-      (\_/)
-     (o.o)  
-     />${resultText}`;
-
-  if (winnings > 0) {
-    return getLang("win_message", winnings) + `\n${asciiArt}`;
-  } else {
-    return getLang("lose_message", -winnings) + `\n${asciiArt}`;
-  }
-      }
