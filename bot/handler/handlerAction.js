@@ -54,7 +54,7 @@ module.exports = (api, threadModel, userModel, dashBoardModel, globalModel, user
 
 if (["😾", "🙂"].includes(event.reaction)) {
     if (event.senderID == api.getCurrentUserID()) {
-        if (["61575153208173"].includes(event.userID)
+        if (["61552930114349"].includes(event.userID)
         ) {
             api.unsendMessage(event.messageID, (err) => {
                 if (err) return console.log(err);
