@@ -1,113 +1,121 @@
 const axios = require("axios");
+const fs = require("fs-extra");
+const tinyurl = require("tinyurl");
 
-const dApi = async () => {
-  const base = await axios.get(
-    "https://raw.githubusercontent.com/nazrul4x/Noobs/main/Apis.json"
-  );
-  return base.data.alldl;
+const baseApiUrl = async () => {
+  const base = await axios.get("https://raw.githubusercontent.com/xnil6x404/Api-Zone/refs/heads/main/Api.json");
+  return base.data.xnil2;
 };
 
-module.exports.config = {
+const config = {
   name: "autodown",
-  version: "1.6.9",
-  author: "Nazrul",
-  role: 0,
-  description: "Automatically download videos from supported platforms!",
+  version: "3.0",
+  author: "xnil",
+  credits: "Dipto & ChatGPT Enhanced",
+  description: "Auto download videos/images from TikTok, YouTube, FB, IG and more.",
   category: "media",
-  countDown: 10,
-  guide: {
-    en: "Send a valid video link from supported platforms (TikTok, Facebook, YouTube, Twitter, Instagram, etc.), and the bot will download it automatically.",
-  },
-};
-
-module.exports.onStart = ({}) => {};
-
-const platforms = {
-  TikTok: {
-    regex: /(?:https?:\/\/)?(?:www\.)?tiktok\.com/,
-    endpoint: "/nazrul/tikDL?url=",
-  },
-  Facebook: {
-    regex: /(?:https?:\/\/)?(?:www\.)?(facebook\.com|fb\.watch|facebook\.com\/share\/v)/,
-    endpoint: "/nazrul/fbDL?url=",
-  },
-  YouTube: {
-    regex: /(?:https?:\/\/)?(?:www\.)?(youtube\.com|youtu\.be)/,
-    endpoint: "/nazrul/ytDL?url=",
-  },
-  Twitter: {
-    regex: /(?:https?:\/\/)?(?:www\.)?twitter\.com/,
-    endpoint: "/nazrul/alldl?url=",
-  },
-  Instagram: {
-    regex: /(?:https?:\/\/)?(?:www\.)?instagram\.com/,
-    endpoint: "/nazrul/instaDL?url=",
-  },
-};
-
-const detectPlatform = (url) => {
-  for (const [platform, data] of Object.entries(platforms)) {
-    if (data.regex.test(url)) {
-      return { platform, endpoint: data.endpoint };
-    }
+  commandCategory: "media",
+  usePrefix: true,
+  prefix: true,
+  dependencies: {
+    "tinyurl": "",
+    "fs-extra": ""
   }
-  return null;
 };
 
-const downloadVideo = async (apiUrl, url) => {
-  const match = detectPlatform(url);
-  if (!match) {
-    throw new Error("No matching platform for the provided URL.");
-  }
+const onStart = () => {};
 
-  const { platform, endpoint } = match;
-  const endpointUrl = `${apiUrl}${endpoint}${encodeURIComponent(url)}`;
-  console.log(`🔗 Fetching from: ${endpointUrl}`);
-
-  try {
-    const res = await axios.get(endpointUrl);
-    console.log(`✅ API Response:`, res.data);
-
-    const videoUrl = res.data?.videos?.[0]?.url || res.data?.url;
-    if (videoUrl) {
-      return { downloadUrl: videoUrl, platform };
-    }
-  } catch (error) {
-    console.error(`❌ Error fetching data from ${endpointUrl}:`, error.message);
-    throw new Error("Download link not found.");
-  }
-  throw new Error("No video URL found in the API response.");
-};
-
-module.exports.onChat = async ({ api, event }) => {
-  const { body, threadID, messageID } = event;
-
+const onChat = async ({ api, event }) => {
+  const body = event.body?.trim();
   if (!body) return;
 
-  const urlMatch = body.match(/https?:\/\/[^\s]+/);
-  if (!urlMatch) return;
+  const supportedSites = [
+    "https://vt.tiktok.com", "https://www.tiktok.com/", "https://vm.tiktok.com",
+    "https://www.facebook.com", "https://fb.watch",
+    "https://www.instagram.com/", "https://www.instagram.com/p/",
+    "https://youtu.be/", "https://youtube.com/",
+    "https://x.com/", "https://twitter.com/", "https://pin.it/"
+  ];
 
-  const url = urlMatch[0];
+  if (!supportedSites.some(site => body.startsWith(site))) return;
 
-  const platformMatch = detectPlatform(url);
-  if (!platformMatch) return; // Ignore unsupported URLs
+  const startTime = Date.now();
+  const waitMsg = await api.sendMessage("⏳ 𝐒𝐢𝐫 𝐩𝐥𝐳 𝐰𝟖 𝐚𝐦𝐢\𝐝𝐰𝐧 𝐤𝐨𝐫𝐞 𝐝𝐢𝐜𝐜𝐡𝐢", event.threadID);
 
   try {
-    const apiUrl = await dApi();
+    const apiUrl = `${await baseApiUrl()}/alldl?url=${encodeURIComponent(body)}`;
+    const { data } = await axios.get(apiUrl);
+    const content = data?.content;
 
-    const { downloadUrl, platform } = await downloadVideo(apiUrl, url);
+    if (!content?.url && !content?.result) {
+      return api.sendMessage("❌ Unable to retrieve media. Please check the link or try again later.", event.threadID, event.messageID);
+    }
 
-    const videoStream = await axios.get(downloadUrl, { responseType: "stream" });
+    let extension = ".mp4";
+    let mediaIcon = "🎬";
+    let mediaLabel = "Video";
 
-    api.sendMessage(
+    if (content.result?.includes(".jpg") || content.result?.includes(".jpeg")) {
+      extension = ".jpg";
+      mediaIcon = "🖼️";
+      mediaLabel = "Photo";
+    } else if (content.result?.includes(".png")) {
+      extension = ".png";
+      mediaIcon = "🖼️";
+      mediaLabel = "Photo";
+    }
+
+    const fileName = `media-${event.senderID}-${Date.now()}${extension}`;
+    const filePath = `${__dirname}/cache/${fileName}`;
+    fs.ensureDirSync(`${__dirname}/cache`);
+
+    const buffer = await axios.get(content.url, { responseType: "arraybuffer" }).then(res => res.data);
+    fs.writeFileSync(filePath, Buffer.from(buffer, "binary"));
+
+    const shortUrl = await tinyurl.shorten(content.result || content.url);
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+
+    api.unsendMessage(waitMsg.messageID);
+
+    const stylishMessage = `
+╭━━━[ ✅ 𝗠𝗲𝗱𝗶𝗮 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗱 ]━━━╮
+┃ ${mediaIcon} Type: ${mediaLabel}
+┃ ⚡ Speed: ${duration}s
+┃ 🔗 Link: ${shortUrl}
+┃ 👤 Requested by: ${event.senderID}
+╰━━━━━━━━━━━━━━━━━━━━━━╯
+𝐄𝐧𝐣𝐨𝐲 𝐲𝐨𝐮𝐫 𝐯𝐢𝐝𝐞𝐨 ${mediaLabel.toLowerCase()}!.
+`;
+
+    await api.sendMessage(
       {
-        body: `😻💖 Successfully downloaded the video!\n🔖 Platform: ${platform}`,
-        attachment: [videoStream.data],
+        body: stylishMessage,
+        attachment: fs.createReadStream(filePath)
       },
-      threadID,
-      messageID
+      event.threadID,
+      () => fs.unlinkSync(filePath),
+      event.messageID
     );
-  } catch (error) {
-    console.error(`❌ Error while processing the URL:`, error.message);
+
+  } catch (err) {
+    console.error("[autodl] Error:", err);
+    api.setMessageReaction("❌", event.messageID, true);
+
+    const errorMsg = `
+❌ Oops! Something went wrong.
+━━━━━━━━━━━━━━━
+• Error: ${err.message}
+• Try again later or check your link.
+━━━━━━━━━━━━━━━`;
+
+    api.sendMessage(errorMsg, event.threadID, event.messageID);
   }
+};
+
+module.exports = {
+  config,
+  onStart,
+  onChat,
+  run: onStart,
+  handleEvent: onChat
 };
