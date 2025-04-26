@@ -1,12 +1,12 @@
 const axios = require("axios");
 
-const prefixes = ["bby", "janu", "babe", "xan", "sona", "bbu", "jaan"];
+const prefixes = ["bby", "janu", "babe", "xan", "sona", "bot", "jaan"];
 
 module.exports = {
   config: {
-    name: "bot",
+    name: "baby",
     version: "1.6.9",
-    author: "xos Eren",
+    author: "Riyel author nai chande",
     role: 0,
     description: {
       en: "No prefix command.",
@@ -66,7 +66,7 @@ module.exports = {
   },
 
   onChat: async function ({ api, event }) {
-    const randomReplies = ["Bolo jaan ki korte pari tmr jonno 🥹", "আর কত বার ডাকবা ,শুনছি তো 🤷🏻‍♀", "আম গাছে আম নাই ঢিল কেন মারো, তোমার সাথে প্রেম নাই বেবি কেন ডাকো 😒🫣", "দূরে যা, তোর কোনো কাজ নাই, শুধু 𝗯𝗯𝘆 𝗯𝗯𝘆 করিস 😉", "Hop beda😾,", "𝗕𝗯𝘆 𝗯𝗼𝗹𝗹𝗮 𝗽𝗮𝗽 𝗵𝗼𝗶𝗯𝗼,,😒😒", "𝗕𝗯𝘆 বলে অসম্মান করচ্ছিছ,😰😿", "ki kobi ko😒", "তোর বিয়ে হয় নি 𝗕𝗯𝘆 হইলো কিভাবে,,🙄", "𝗕𝗯𝘆 বললে চাকরি থাকবে না", "বার বার ডাকলে মাথা গরম হয় কিন্তু 😑😒", "বলো ফুলটুশি😘", "ভুলে জাও আমাকে 😞😞", "Ato gulo bby k samlate parsi nah 😫😫"];
+    const randomReplies = ["Bolo jaan ki korte pari tmr jonno 🥹", "আর কত বার ডাকবা ,শুনছি তো 🤷🏻‍♀", "আম গাছে আম নাই ঢিল কেন মারো, তোমার সাথে প্রেম নাই বেবি কেন ডাকো 😒🫣", "দূরে যা, তোর কোনো কাজ নাই, শুধু 𝗯𝗯𝘆 𝗯𝗯𝘆 করিস 😉", "Hop beda😾,", "𝗕𝗯𝘆 𝗯𝗼𝗹𝗹𝗮 𝗽𝗮𝗽 𝗵𝗼𝗶𝗯𝗼,,😒😒", "𝗕𝗯𝘆 বলে অসম্মান করচ্ছিছ,😰😿", "ki kobi ko😒", "তোর বিয়ে হয় নি 𝗕𝗯𝘆 হইলো কিভাবে,,🙄", "𝗕𝗯𝘆 বললে চাকরি থাকবে না", "বার বার ডাকলে মাথা গরম হয় কিন্তু 😑😒", "বলো ফুলটুশি😘", "ভুলে জাও আমাকে 😞😞", "Amk eto na deke boss 卡姆鲁尔 ke ekta gof de😫🙈"];
     const rand = randomReplies[Math.floor(Math.random() * randomReplies.length)];
 
     const messageBody = event.body ? event.body.toLowerCase() : "";
@@ -79,7 +79,7 @@ module.exports = {
 
       if (prefixes.some((prefix) => messageBody.startsWith(prefix))) {
         setTimeout(() => {
-          api.setMessageReaction("😍", event.messageID, () => {}, true);
+          api.setMessageReaction("👽", event.messageID, () => {}, true);
         }, 400);
 
         api.sendTypingIndicator(event.threadID, true);
@@ -140,10 +140,10 @@ module.exports = {
     }
 
     // Handling reaction triggers based on certain text patterns
-    const reactions = ["haha", "😹", "lol", "pro", "gpt", "😹", "hehe"];
+    const reactions = ["haha", "🧘‍♂️", "lol", "pro", "gpt", "🐸", "hehe"];
     if (reactions.some(reaction => messageBody.includes(reaction))) {
       setTimeout(() => {
-        api.setMessageReaction("😹", event.messageID, () => {}, true);
+        api.setMessageReaction("🐥", event.messageID, () => {}, true);
       }, 500);
     }
   }
